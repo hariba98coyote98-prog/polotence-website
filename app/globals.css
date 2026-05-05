@@ -1,26 +1,154 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   POLOTENCE Design Tokens
+   Locked Visual DNA — see ../creative_brief/_visual_dna.md
+   ============================================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand colors */
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+  --color-fg-primary: #ffffff;
+  --color-fg-secondary: #b8b8b8;
+  --color-fg-tertiary: #e8e8e8;
+  --color-fg-muted: #6a6a6a;
+  --color-accent: #ff6b1a;
+  --color-accent-hover: #ff8242;
+  --color-accent-soft: rgba(255, 107, 26, 0.1);
+
+  /* Surface borders */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Typography */
+  --tracking-display: -0.04em;
+  --tracking-headline: -0.02em;
+  --tracking-body: 0;
+  --tracking-caps: 0.02em;
+
+  /* Spacing scale */
+  --section-pad-y: clamp(5rem, 12vw, 10rem);
+  --container-pad-x: clamp(1.25rem, 4vw, 3rem);
+  --container-max: 1280px;
+
+  /* Radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 800ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-fg-primary);
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-tertiary: var(--color-bg-tertiary);
+  --color-fg-primary: var(--color-fg-primary);
+  --color-fg-secondary: var(--color-fg-secondary);
+  --color-fg-tertiary: var(--color-fg-tertiary);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg-primary);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg-primary);
+  color: var(--color-fg-primary);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "ss01", "ss03", "cv11";
+  font-variant-numeric: tabular-nums;
+}
+
+.font-display {
+  font-weight: 900;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.font-headline {
+  font-weight: 800;
+  letter-spacing: var(--tracking-headline);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.font-caps {
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.font-spec-number {
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--color-bg-tertiary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-fg-muted); }
+
+.container-x {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: var(--container-pad-x);
+  padding-right: var(--container-pad-x);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-y {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Subtle hover lift for product cards */
+.lift {
+  transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px -10px rgba(255, 107, 26, 0.15);
 }
